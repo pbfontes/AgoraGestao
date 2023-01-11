@@ -8,16 +8,16 @@ import 'package:my_app/widgets/widgets.dart';
 
 import '../models/models.dart';
 
-class AvisosPage extends StatelessWidget {
-  const AvisosPage({super.key});
+class MessagesPage extends StatelessWidget {
+  const MessagesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        const SliverToBoxAdapter(
-          child: _Stories(),
-        ),
+        // const SliverToBoxAdapter(
+        //   child: _Stories(),
+        // ),
         SliverList(delegate: SliverChildBuilderDelegate(_delegate))
       ],
     );

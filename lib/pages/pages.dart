@@ -1,2 +1,2 @@
-export 'avisos.dart';
-export 'portaria.dart';
+export 'messages_page.dart';
+export 'inbox_page.dart';

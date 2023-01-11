@@ -43,6 +43,8 @@ dependencies:
   cached_network_image: ^3.2.3
   faker: ^2.1.0
   jiffy: ^5.0.0
+  provider: ^6.0.5
+  animations: ^2.0.7
 
 dev_dependencies:
   flutter_test:
