@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/helpers.dart';
 import 'package:my_app/pages/pages.dart';
-import 'package:my_app/screens/profile_screen.dart';
+import 'package:my_app/screens/screens.dart';
 import 'package:my_app/theme.dart';
 import 'package:my_app/widgets/widgets.dart';
 
@@ -195,14 +195,14 @@ class _AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
 
 
 
-class NavigationExample extends StatefulWidget {
-  const NavigationExample({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<NavigationExample> createState() => _NavigationExampleState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _NavigationExampleState extends State<NavigationExample> {
+class _HomeScreenState extends State<HomeScreen> {
   final ValueNotifier<String> title = ValueNotifier("Avisos");
   int currentPageIndex = 0;
 
@@ -219,6 +219,7 @@ class _NavigationExampleState extends State<NavigationExample> {
         },
         selectedIndex: currentPageIndex,
         destinations: _getDestinations,
+        backgroundColor: AppColors.cardLight,
       ),
       body: _getPages[currentPageIndex],
     );
@@ -314,28 +315,28 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.verified_user),
-            title: Text('Perfil'),
+            leading: const Icon(Icons.verified_user),
+            title: const Text('Perfil'),
             onTap: () => {Navigator.of(context).push(ProfileScreen.route())},
           ),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Configurações'),
+            leading: const Icon(Icons.settings),
+            title: const Text('Configurações'),
+            onTap: () => {Navigator.of(context).push(SettingsScreen.route())},
+          ),
+          ListTile(
+            leading: const Icon(Icons.table_chart),
+            title: const Text('Quadro de horários'),
             onTap: () => {Navigator.of(context).pop()},
           ),
           ListTile(
-            leading: Icon(Icons.table_chart),
-            title: Text('Quadro de horários'),
+            leading: const Icon(Icons.history),
+            title: const Text('Histórico'),
             onTap: () => {Navigator.of(context).pop()},
           ),
           ListTile(
-            leading: Icon(Icons.history),
-            title: Text('Histórico'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text('Logout'),
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Logout'),
             onTap: () => {Navigator.of(context).pop()},
           ),
         ],
