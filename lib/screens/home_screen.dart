@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/helpers.dart';
+import 'package:my_app/pages/booking_page.dart';
 import 'package:my_app/pages/pages.dart';
 import 'package:my_app/screens/screens.dart';
 import 'package:my_app/theme.dart';
@@ -65,10 +66,10 @@ class _AppBarHomeScreen extends StatelessWidget implements PreferredSizeWidget {
         //     }),
         //   ),
         // ),
-        actions: [Padding(
-          padding: const EdgeInsets.only(right: 24),
-          child: Avatar.small(url: Helpers.randomPictureUrl(),),
-        )],
+        // actions: [Padding(
+        //   padding: const EdgeInsets.only(right: 24),
+        //   child: Avatar.small(url: Helpers.randomPictureUrl(),),
+        // )],
       );
   }
 
@@ -229,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return <Widget>[
       const InboxPage(),
       const MessagesPage(),
-      const Center(child: Text("teste"),)
+      const BookingPage()
       ];
   }
 
@@ -264,7 +265,7 @@ class _AppBarTitleHomeScreen extends StatelessWidget {
       children: [
 
         const SizedBox(
-          width: 16,
+          width: 32,
         ),
         Expanded(
           child: Column(
@@ -324,15 +325,15 @@ class NavDrawer extends StatelessWidget {
             title: const Text('Configurações'),
             onTap: () => {Navigator.of(context).push(SettingsScreen.route())},
           ),
-          ListTile(
-            leading: const Icon(Icons.table_chart),
-            title: const Text('Quadro de horários'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.table_chart),
+          //   title: const Text('Quadro de horários'),
+          //   onTap: () => {Navigator.of(context).pop()},
+          // ),
           ListTile(
             leading: const Icon(Icons.history),
             title: const Text('Histórico'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {Navigator.of(context).push(HistoryScreen.route())},
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
