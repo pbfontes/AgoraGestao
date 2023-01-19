@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-class SettingItemScreen extends StatelessWidget {
+class ProfileItemScreen extends StatelessWidget {
   static Route route(String itemTitle, String hint) => MaterialPageRoute(
-        builder: (context) => SettingItemScreen(
-          settingItemTitle: itemTitle,
+        builder: (context) => ProfileItemScreen(
+          profileItemTitle: itemTitle,
           hintText: hint,
         ),
       );
 
-  const SettingItemScreen({
+  const ProfileItemScreen({
     super.key,
-    required this.settingItemTitle,
+    required this.profileItemTitle,
     required this.hintText,
   });
 
-  final String settingItemTitle;
+  final String profileItemTitle;
   final String hintText;
 
   @override
@@ -33,21 +33,21 @@ class SettingItemScreen extends StatelessWidget {
             icon: const Icon(Icons.close),
           ),
         ),
-        body: SettingItemBody(
-          settingItemTitle: settingItemTitle,
+        body: ProfileItemBody(
+          profileItemTitle: profileItemTitle,
           hintText: hintText,
         ));
   }
 }
 
-class SettingItemBody extends StatelessWidget {
-  const SettingItemBody({
+class ProfileItemBody extends StatelessWidget {
+  const ProfileItemBody({
     Key? key,
-    required this.settingItemTitle,
+    required this.profileItemTitle,
     required this.hintText,
   }) : super(key: key);
 
-  final String settingItemTitle;
+  final String profileItemTitle;
   final String hintText;
 
   @override
@@ -60,7 +60,7 @@ class SettingItemBody extends StatelessWidget {
         children: [
           Text(
             // "Digite seu novo endereço de email"
-            settingItemTitle,
+            profileItemTitle,
             style: Theme.of(context).textTheme.headline5,
           ),
           const SizedBox(
@@ -70,7 +70,22 @@ class SettingItemBody extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          const TextField(autofocus: true)
+          const TextField(autofocus: true),
+          const SizedBox(
+            height: 42,
+          ),
+          InkWell(
+            onTap: (() {}),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: AppColors.textLigth,
+              ),
+              height: 48,
+              width: double.infinity,
+              child: const Center(child: Text("Confirmar")),
+            ),
+          )
         ],
       ),
     ));
