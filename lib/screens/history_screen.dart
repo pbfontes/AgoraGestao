@@ -35,6 +35,7 @@ class HistoryDay extends StatelessWidget {
     );
   }
 
+
   List<Widget> get historyItems {
     return const <Widget>[
       Padding(

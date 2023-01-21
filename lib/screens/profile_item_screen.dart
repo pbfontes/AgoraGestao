@@ -74,15 +74,15 @@ class ProfileItemBody extends StatelessWidget {
           const SizedBox(
             height: 42,
           ),
-          InkWell(
-            onTap: (() {}),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: AppColors.textLigth,
-              ),
-              height: 48,
-              width: double.infinity,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: AppColors.textLigth,
+            ),
+            height: 48,
+            width: double.infinity,
+            child: InkWell(
+              onTap: (() {}),
               child: const Center(child: Text("Confirmar")),
             ),
           )
@@ -90,4 +90,6 @@ class ProfileItemBody extends StatelessWidget {
       ),
     ));
   }
+
 }
+

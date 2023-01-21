@@ -31,14 +31,26 @@ class ProfileList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const profileItems = <Widget>[
+      ListTile(
+        leading: SizedBox(
+            height: double.infinity,
+            child: Icon(
+              Icons.location_city,
+              size: 32,
+            )),
+        title: Text("Condomínio Saint Martin"),
+        subtitle: Text("Bloco 2, 1401"),
+      ),
+      ProfileItem(
+        profileTitle: "Email",
+        profileSubtitle: "paulobatfon@gmail.com",
+      ),
+      ProfileItem(
+        profileTitle: "Telefone",
+        profileSubtitle: "21 996008803",
+      ),
       ProfileItem(
         profileTitle: "Alterar senha",
-      ),
-      ProfileItem(
-        profileTitle: "Alterar email",
-      ),
-      ProfileItem(
-        profileTitle: "Alterar telefone",
       ),
     ];
     return ListView(
@@ -57,20 +69,21 @@ class ProfileList extends StatelessWidget {
 //         ),);
 
 class ProfileItem extends StatelessWidget {
-  const ProfileItem({super.key, required this.profileTitle});
+  const ProfileItem({super.key, required this.profileTitle, this.profileSubtitle});
 
   final String profileTitle;
+  final String? profileSubtitle;
 
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (profileTitle == "Alterar email") {
+        if (profileTitle == "Email") {
           Navigator.of(context).push(ProfileItemScreen.route(
               "Digite seu novo endereço de email",
               "Enviaremos um email de confirmação"));
-        } else if (profileTitle == "Alterar telefone") {
+        } else if (profileTitle == "Telefone") {
           Navigator.of(context).push(ProfileItemScreen.route(
               "Digite seu novo telefone de preferência",
               "Enviaremos um sms de confirmação"));
@@ -78,9 +91,18 @@ class ProfileItem extends StatelessWidget {
       },
       child: ListTile(
         title: Text(profileTitle),
+        subtitle: checkSubtitle(profileSubtitle),
         trailing: const Icon(Icons.arrow_right),
       ),
     );
+  }
+
+
+    Widget? checkSubtitle(value) {
+    if (value == null) {
+      return null;
+    }
+    return Text(value);
   }
   
 }
