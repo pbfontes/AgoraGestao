@@ -6,10 +6,10 @@ class SpaceData {
     required this.title,
     required this.price,
     this.bookedDates,
-    this.picture,
+    required this.picture,
   });
   final String title;
   final String price;
   final DateTime? bookedDates;
-  final String? picture;
+  final String picture;
 }
