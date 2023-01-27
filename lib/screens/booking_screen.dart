@@ -92,7 +92,7 @@ class SpaceDetailsBody extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(
-                  height: 8,
+                  height: 12,
                 ),
                 Text(
                   "10 mesas\n50 cadeiras\nLimpeza do espaço\nBuffet",
@@ -106,7 +106,7 @@ class SpaceDetailsBody extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(
-                  height: 8,
+                  height: 12,
                 ),
                 Text(
                   "Para o bom convívio com o demais condôminos, é proibida música alta após as 22 nesses espaço. Além disso, não é permitido a presença de um número de convidados superior ao que o espaço comporta.",
@@ -149,16 +149,18 @@ class BookingDatePickerBlock extends StatefulWidget {
 
 class _BookingDatePickerBlockState extends State<BookingDatePickerBlock> {
   TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
 
   @override
   void initState() {
     dateController.text = ""; //set the initial value of text field
+    timeController.text = "";
     super.initState();
   }
 
   // ------------------------------------------------------------------
 
-  int _selectedFruit = 0;
+  int _selectedTimeStamp = 0;
 
   // This shows a CupertinoModalPopup with a reasonable fixed height which hosts CupertinoPicker.
   void _showDialog(Widget child) {
@@ -191,15 +193,27 @@ class _BookingDatePickerBlockState extends State<BookingDatePickerBlock> {
         style: Theme.of(context).textTheme.titleMedium,
       ),
       const SizedBox(
-        height: 8,
+        height: 20,
       ),
       TextField(
         controller: dateController, //editing controller of this TextField
         decoration: const InputDecoration(
-          icon: Icon(Icons.event),
-          hintText: "Selecionar data",
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+          prefixIconConstraints: BoxConstraints(maxHeight: 20),
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(right: 12,),
+            child: Icon(
+              Icons.calendar_month,
+              size: 20,
+              color: Colors.grey,
+            ),
+          ),
           border: InputBorder.none,
+          hintText: "Selecionar data",
         ),
+        style: Theme.of(context).textTheme.bodyMedium,
+        textAlignVertical: TextAlignVertical.center,
         readOnly: true, // when true user cannot edit text
         onTap: () async {
           DateTime? pickedDate = await showDatePicker(
@@ -216,40 +230,61 @@ class _BookingDatePickerBlockState extends State<BookingDatePickerBlock> {
           }
         },
       ),
-      ElevatedButton(
-          onPressed: (() => _showDialog(
-                CupertinoPicker(
-                  magnification: 1.22,
-                  squeeze: 1.2,
-                  useMagnifier: true,
-                  itemExtent: _kItemExtent,
-                  // This is called when selected item is changed.
-                  onSelectedItemChanged: (int selectedItem) {
-                    setState(() {
-                      _selectedFruit = selectedItem;
-                    });
-                  },
-                  children:
-                      List<Widget>.generate(_fruitNames.length, (int index) {
-                    return Center(
-                      child: Text(
-                        _fruitNames[index],
-                      ),
-                    );
-                  }),
-                ),
-              )),
-          child: Text(_fruitNames[_selectedFruit]))
+      const SizedBox(height: 12,),
+      TextField(
+        controller: timeController,
+        readOnly: true,
+        onTap: (() {
+          _showDialog(
+            CupertinoPicker(
+              magnification: 1.22,
+              squeeze: 1.2,
+              useMagnifier: true,
+              itemExtent: _kItemExtent,
+              // This is called when selected item is changed.
+              onSelectedItemChanged: (int selectedItem) {
+                setState(() {
+                  _selectedTimeStamp = selectedItem;
+                  timeController.text = _timeStamps[_selectedTimeStamp];
+                });
+              },
+              children: List<Widget>.generate(_timeStamps.length, (int index) {
+                return Center(
+                  child: Text(
+                    _timeStamps[index],
+                  ),
+                );
+              }),
+            ),
+          );
+        }),
+        decoration: const InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.zero,
+            // filled: true,
+            // fillColor: Colors.red,
+            prefixIconConstraints: BoxConstraints(maxHeight: 20),
+            prefixIcon: Padding(
+              padding: EdgeInsets.only(right: 12),
+              child: Icon(
+                Icons.schedule,
+                size: 20,
+                color: Colors.grey,
+              ),
+            ),
+            border: InputBorder.none,
+            hintText: "Selecionar horário"),
+        style: Theme.of(context).textTheme.bodyMedium,
+        textAlignVertical: TextAlignVertical.center,
+      )
     ]);
   }
 }
 
 const double _kItemExtent = 32.0;
-const List<String> _fruitNames = <String>[
-  'Apple',
-  'Mango',
-  'Banana',
-  'Orange',
-  'Pineapple',
-  'Strawberry',
+const List<String> _timeStamps = <String>[
+  '9h - 11h',
+  '11h - 13h',
+  '15h - 17h',
+  '17h - 19h',
 ];
