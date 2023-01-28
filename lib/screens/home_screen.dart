@@ -6,9 +6,6 @@ import 'package:my_app/screens/screens.dart';
 import 'package:my_app/theme.dart';
 import 'package:my_app/widgets/widgets.dart';
 
-
-
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -24,58 +21,147 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: Theme.of(context).iconTheme,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(titles[currentPageIndex], style: Theme.of(context).textTheme.titleMedium,),
-      ),
-    
-      drawer: const NavDrawer(),
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-            title.value = titles[index];
-          });
-        },
-        selectedIndex: currentPageIndex,
-        destinations: _getDestinations,
-        backgroundColor: AppColors.cardLight,
-      ),
-      body: _getPages[currentPageIndex],
-    );
+    return _scaffoldBuilder();
   }
-
 
   List<Widget> get _getPages {
     return <Widget>[
       const InboxPage(),
       const MessagesPage(),
       const BookingPage()
-      ];
+    ];
   }
 
   List<Widget> get _getDestinations {
     return const <Widget>[
-        NavigationDestination(
-          icon: Icon(Icons.upcoming),
-          label: 'Avisos',
+      NavigationDestination(
+        icon: Icon(Icons.upcoming),
+        label: 'Avisos',
+      ),
+      NavigationDestination(
+        icon: Icon(Icons.forum_rounded),
+        label: 'Mensagens',
+      ),
+      NavigationDestination(
+        icon: Icon(Icons.edit_calendar),
+        label: 'Reservas',
+      ),
+    ];
+  }
+
+  Widget _scaffoldBuilder() {
+    if (currentPageIndex == 2) {
+      return DefaultTabController(
+        initialIndex: 1,
+        length: 2,
+        child: Scaffold(
+          // appBar: AppBar(
+          //   iconTheme: Theme.of(context).iconTheme,
+          //   backgroundColor: Colors.transparent,
+          //   elevation: 0,
+          //   centerTitle: true,
+          //   title: Text(
+          //     titles[currentPageIndex],
+          //     style: Theme.of(context).textTheme.titleMedium,
+          //   ),
+          //   bottom: TabBar(
+          //     tabs: <Widget>[
+          //       Tab(
+          //         child: Text(
+          //           "Suas reservas",
+          //           style: Theme.of(context).textTheme.bodyMedium,
+          //         ),
+          //       ),
+          //       Tab(
+          //         child: Text(
+          //           "Nova reserva",
+          //           style: Theme.of(context).textTheme.bodyMedium,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+
+          drawer: const NavDrawer(),
+          bottomNavigationBar: NavigationBar(
+            onDestinationSelected: (int index) {
+              setState(() {
+                currentPageIndex = index;
+                title.value = titles[index];
+              });
+            },
+            selectedIndex: currentPageIndex,
+            destinations: _getDestinations,
+            backgroundColor: AppColors.cardLight,
+          ),
+          // body: _getPages[currentPageIndex],
+          body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  title: Text(
+                    titles[currentPageIndex],
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  iconTheme: Theme.of(context).iconTheme,
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  centerTitle: true,
+                  floating: true,
+                  pinned: true,
+                  snap: true,
+                  bottom: TabBar(
+                    tabs: <Widget>[
+                      Tab(
+                        child: Text(
+                          "Suas reservas",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                      Tab(
+                        child: Text(
+                          "Nova reserva",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ];
+            },
+            body: _getPages[currentPageIndex],
+          ),
         ),
-        NavigationDestination(
-          icon: Icon(Icons.forum_rounded),
-          label: 'Mensagens',
+      );
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          iconTheme: Theme.of(context).iconTheme,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(
+            titles[currentPageIndex],
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         ),
-        NavigationDestination(
-          icon: Icon(Icons.edit_calendar),
-          label: 'Reservas',
+        drawer: const NavDrawer(),
+        bottomNavigationBar: NavigationBar(
+          onDestinationSelected: (int index) {
+            setState(() {
+              currentPageIndex = index;
+              title.value = titles[index];
+            });
+          },
+          selectedIndex: currentPageIndex,
+          destinations: _getDestinations,
+          backgroundColor: AppColors.cardLight,
         ),
-      ];
+        body: _getPages[currentPageIndex],
+      );
+    }
   }
 }
-
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({
@@ -92,8 +178,7 @@ class NavDrawer extends StatelessWidget {
             // margin: EdgeInsets.all(0),
             // padding: EdgeInsets.all(0),
             decoration: BoxDecoration(
-                color: AppColors.secondary,
-                
+              color: AppColors.secondary,
             ),
             child: Text(
               'Olá, Paulo.',
