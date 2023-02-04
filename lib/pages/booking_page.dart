@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../helpers.dart';
 import '../models/models.dart';
 import '../screens/screens.dart';
@@ -10,7 +9,7 @@ class BookingPage extends StatelessWidget {
   final String festa =
       "https://www.casadevalentina.com.br/wp-content/uploads/2019/11/Sal%C3%A3oDeFestas_CasaDeValentina-6.jpg.optimal.jpg";
   final String churras1 =
-      "https://blog.thony.com.br/wp-content/uploads/2020/09/churrasqueira-de-alvenaria.jpg";
+      "https://s2.glbimg.com/YY_wqwry9hYdGCr5Lhvhhnvts7k=/smart/e.glbimg.com/og/ed/f/original/2019/09/16/ideias-churrasqueira-06.jpg";
   final String churras2 =
       "https://comprarchurrasqueira.com/wp-content/uploads/2020/03/Churrasqueira-no-quintal.jpg";
   final String jogos =
@@ -43,31 +42,36 @@ class BookingPage extends StatelessWidget {
 
     return TabBarView(
       children: <Widget>[
-        const Center(
-          child: Text("Você ainda não possui reservas"),
+        Padding(
+          padding: const EdgeInsets.only(right: 24.0, left: 24.0, top: 24),
+          child: SpaceCard(
+            spaceData: sampleData[2],
+            bookedData: BookedData(
+                clientId: 'teste', date: DateTime.now(), spaceId: 'teste'),
+          ),
         ),
         Padding(
-          padding: const EdgeInsets.only(right: 24.0, left: 24.0, top:16),
+          padding: const EdgeInsets.only(right: 24.0, left: 24.0, top: 0),
           child: ListView(
             children: spaceCards,
           ),
         ),
       ],
     );
-
   }
 }
 
 class SpaceCard extends StatelessWidget {
-  const SpaceCard({super.key, required this.spaceData});
+  const SpaceCard({super.key, required this.spaceData, this.bookedData});
 
   final SpaceData spaceData;
+  final BookedData? bookedData;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(BookingScreen.route(spaceData));
+        Navigator.of(context).push(BookingScreen.route(spaceData, bookedData));
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 20.0),
@@ -84,14 +88,31 @@ class SpaceCard extends StatelessWidget {
                 ),
               ),
             ),
-            ListTile(
-              title: Text(spaceData.title),
-              trailing: Text("${spaceData.price} / dia"),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-            )
+            _getTrailingContent()
           ],
         ),
       ),
     );
+  }
+
+  ListTile _getTrailingContent() {
+    if (bookedData == null) {
+      return ListTile(
+        title: Text(spaceData.title),
+        trailing: Text("${spaceData.price} / dia"),
+        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        // contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+      );
+    } else {
+      return ListTile(
+        title: Text(spaceData.title),
+        trailing: Text(
+            "${bookedData?.date?.day}/${bookedData?.date?.month}/${bookedData?.date?.year}"),
+        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        // contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+      );
+    }
   }
 }

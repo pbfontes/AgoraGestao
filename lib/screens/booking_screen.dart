@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,15 +8,15 @@ import 'package:my_app/theme.dart';
 import 'package:flutter/cupertino.dart';
 
 class BookingScreen extends StatelessWidget {
-  static Route route(spaceData) => MaterialPageRoute(
-        builder: (context) => BookingScreen(
-          spaceData: spaceData,
-        ),
+  static Route route(spaceData, bookedData) => MaterialPageRoute(
+        builder: (context) =>
+            BookingScreen(spaceData: spaceData, bookedData: bookedData),
       );
 
-  const BookingScreen({super.key, required this.spaceData});
+  const BookingScreen({super.key, required this.spaceData, this.bookedData});
 
   final SpaceData spaceData;
+  final BookedData? bookedData;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +33,16 @@ class BookingScreen extends StatelessWidget {
         // ),
         body: SpaceDetailsBody(
       spaceData: spaceData,
+      bookedData: bookedData,
     ));
   }
 }
 
 class SpaceDetailsBody extends StatelessWidget {
-  const SpaceDetailsBody({super.key, required this.spaceData});
+  const SpaceDetailsBody({super.key, required this.spaceData, this.bookedData});
 
   final SpaceData spaceData;
+  final BookedData? bookedData;
 
   @override
   Widget build(BuildContext context) {
@@ -114,12 +118,22 @@ class SpaceDetailsBody extends StatelessWidget {
                 )
               ]),
               const Divider(),
-              const BookingDatePickerBlock()
+              _getDateWidget()
             ],
           ),
         )
       ],
     );
+  }
+
+  Widget _getDateWidget() {
+    if (bookedData == null) {
+      return const BookingDatePickerBlock();
+    } else {
+      return DisplayDateTimeData(
+        bookedData: bookedData!,
+      );
+    }
   }
 }
 
@@ -202,7 +216,9 @@ class _BookingDatePickerBlockState extends State<BookingDatePickerBlock> {
           contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           prefixIconConstraints: BoxConstraints(maxHeight: 20),
           prefixIcon: Padding(
-            padding: EdgeInsets.only(right: 12,),
+            padding: EdgeInsets.only(
+              right: 12,
+            ),
             child: Icon(
               Icons.calendar_month,
               size: 20,
@@ -230,7 +246,9 @@ class _BookingDatePickerBlockState extends State<BookingDatePickerBlock> {
           }
         },
       ),
-      const SizedBox(height: 12,),
+      const SizedBox(
+        height: 12,
+      ),
       TextField(
         controller: timeController,
         readOnly: true,
@@ -276,15 +294,91 @@ class _BookingDatePickerBlockState extends State<BookingDatePickerBlock> {
             hintText: "Selecionar horário"),
         style: Theme.of(context).textTheme.bodyMedium,
         textAlignVertical: TextAlignVertical.center,
-      )
+      ), 
+      const SizedBox(height: 24,),
+      const FullWidthButton(color: Colors.green, title: "Realizar reserva",)
+    ]);
+  }
+
+  final double _kItemExtent = 32.0;
+  final List<String> _timeStamps = <String>[
+    '9h - 11h',
+    '11h - 13h',
+    '15h - 17h',
+    '17h - 19h',
+  ];
+}
+
+class DisplayDateTimeData extends StatelessWidget {
+  const DisplayDateTimeData({super.key, required this.bookedData});
+
+  final BookedData bookedData;
+
+  @override
+  Widget build(BuildContext context) {
+    return SpaceInfoBlock(children: [
+      Text(
+        "Data e horário selecionados",
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+      const SizedBox(
+        height: 12,
+      ),
+      ListTile(
+        title: Text(
+            "${bookedData.date?.day}/${bookedData.date?.month}/${bookedData.date?.year}"),
+        leading: const Icon(
+          Icons.calendar_month,
+          size: 20,
+        ),
+        visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+        dense: true,
+        contentPadding: const EdgeInsets.all(0),
+        minLeadingWidth: 10,
+        horizontalTitleGap: 6,
+      ),
+      const ListTile(
+        title: Text("15:00"),
+        leading: Icon(
+          Icons.schedule,
+          size: 20,
+        ),
+        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+        dense: true,
+        contentPadding: EdgeInsets.all(0),
+        minLeadingWidth: 10,
+        horizontalTitleGap: 6,
+      ),
+      const SizedBox(height: 16,),
+      const FullWidthButton(color: Colors.red, title: "Cancelar reserva",)
     ]);
   }
 }
 
-const double _kItemExtent = 32.0;
-const List<String> _timeStamps = <String>[
-  '9h - 11h',
-  '11h - 13h',
-  '15h - 17h',
-  '17h - 19h',
-];
+class FullWidthButton extends StatelessWidget {
+  const FullWidthButton({
+    Key? key,
+    this.color,
+    required this.title
+  }) : super(key: key);
+
+
+  final Color? color;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {},
+        style:ElevatedButton.styleFrom(
+          backgroundColor: color,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(vertical: 14),
+        ),
+        child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold),),
+      ),
+    );
+  }
+}
