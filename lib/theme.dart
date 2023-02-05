@@ -36,7 +36,7 @@ abstract class AppTheme {
         colorScheme: ColorScheme.fromSwatch()
             .copyWith(secondary: accentColor, brightness: Brightness.light),
         visualDensity: visualDensity,
-        textTheme: GoogleFonts.interTextTheme().apply(bodyColor: AppColors.textDark),
+        textTheme: GoogleFonts.poppinsTextTheme().apply(bodyColor: AppColors.textDark),
         scaffoldBackgroundColor: _LightColors.background,
         cardColor: _LightColors.card,
         primaryTextTheme: const TextTheme(

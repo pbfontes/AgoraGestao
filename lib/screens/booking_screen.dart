@@ -46,83 +46,85 @@ class SpaceDetailsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-            width: double.infinity,
-            height: 200,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(spaceData.picture),
-                fit: BoxFit.cover,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+              width: double.infinity,
+              height: 200,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(spaceData.picture),
+                  fit: BoxFit.cover,
+                ),
               ),
+              alignment: Alignment.topLeft,
+              child: SafeArea(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(8),
+                    backgroundColor: Colors.white,
+                  ),
+                  child: const Icon(Icons.navigate_before, color: Colors.grey),
+                ),
+              )),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SpaceInfoBlock(children: [
+                  Text(spaceData.title,
+                      style: const TextStyle(
+                          color: AppColors.textDark,
+                          fontWeight: FontWeight.w600,
+                          // fontFamily: GoogleFonts.inter().fontFamily,
+                          fontSize: 24)),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text('${spaceData.price} / dia'),
+                ]),
+                const Divider(),
+                SpaceInfoBlock(children: [
+                  Text(
+                    "Comodiades inclusas",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    "10 mesas\n50 cadeiras\nLimpeza do espaço\nBuffet",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  )
+                ]),
+                const Divider(),
+                SpaceInfoBlock(children: [
+                  Text(
+                    "Regras do espaço",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    "Para o bom convívio com o demais condôminos, é proibida música alta após as 22 nesses espaço. Além disso, não é permitido a presença de um número de convidados superior ao que o espaço comporta.",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  )
+                ]),
+                const Divider(),
+                _getDateWidget()
+              ],
             ),
-            alignment: Alignment.topLeft,
-            child: SafeArea(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: const CircleBorder(),
-                  padding: const EdgeInsets.all(8),
-                  backgroundColor: Colors.white,
-                ),
-                child: const Icon(Icons.navigate_before, color: Colors.grey),
-              ),
-            )),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SpaceInfoBlock(children: [
-                Text(spaceData.title,
-                    style: TextStyle(
-                        color: AppColors.textDark,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: GoogleFonts.inter().fontFamily,
-                        fontSize: 24)),
-                const SizedBox(
-                  height: 8,
-                ),
-                Text('${spaceData.price} / dia'),
-              ]),
-              const Divider(),
-              SpaceInfoBlock(children: [
-                Text(
-                  "Comodiades inclusas",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  "10 mesas\n50 cadeiras\nLimpeza do espaço\nBuffet",
-                  style: Theme.of(context).textTheme.bodySmall,
-                )
-              ]),
-              const Divider(),
-              SpaceInfoBlock(children: [
-                Text(
-                  "Regras do espaço",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  "Para o bom convívio com o demais condôminos, é proibida música alta após as 22 nesses espaço. Além disso, não é permitido a presença de um número de convidados superior ao que o espaço comporta.",
-                  style: Theme.of(context).textTheme.bodySmall,
-                )
-              ]),
-              const Divider(),
-              _getDateWidget()
-            ],
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
@@ -294,9 +296,14 @@ class _BookingDatePickerBlockState extends State<BookingDatePickerBlock> {
             hintText: "Selecionar horário"),
         style: Theme.of(context).textTheme.bodyMedium,
         textAlignVertical: TextAlignVertical.center,
-      ), 
-      const SizedBox(height: 24,),
-      const FullWidthButton(color: Colors.green, title: "Realizar reserva",)
+      ),
+      const SizedBox(
+        height: 24,
+      ),
+      const FullWidthButton(
+        color: Colors.green,
+        title: "Realizar reserva",
+      )
     ]);
   }
 
@@ -349,19 +356,20 @@ class DisplayDateTimeData extends StatelessWidget {
         minLeadingWidth: 10,
         horizontalTitleGap: 6,
       ),
-      const SizedBox(height: 16,),
-      const FullWidthButton(color: Colors.red, title: "Cancelar reserva",)
+      const SizedBox(
+        height: 16,
+      ),
+      const FullWidthButton(
+        color: Colors.red,
+        title: "Cancelar reserva",
+      )
     ]);
   }
 }
 
 class FullWidthButton extends StatelessWidget {
-  const FullWidthButton({
-    Key? key,
-    this.color,
-    required this.title
-  }) : super(key: key);
-
+  const FullWidthButton({Key? key, this.color, required this.title})
+      : super(key: key);
 
   final Color? color;
   final String title;
@@ -372,12 +380,15 @@ class FullWidthButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {},
-        style:ElevatedButton.styleFrom(
+        style: ElevatedButton.styleFrom(
           backgroundColor: color,
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 14),
         ),
-        child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold),),
+        child: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
