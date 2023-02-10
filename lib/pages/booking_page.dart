@@ -18,12 +18,12 @@ class BookingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sampleData = [
-      SpaceData(title: "Salão de festas", price: "R\$203", picture: festa),
+      SpaceData(title: "Salão de festas", price: 200, picture: festa, priceTimeReference: "dia"),
       SpaceData(
-          title: "Churrasqueira bloco 2", price: "R\$100", picture: churras1),
+          title: "Churrasqueira bloco 2", price: 100, picture: churras1, priceTimeReference: "2 horas"),
       SpaceData(
-          title: "Churrasqueira bloco 4", price: "R\$250", picture: churras2),
-      SpaceData(title: "Sala de jogos", price: "R\$80", picture: jogos)
+          title: "Churrasqueira bloco 4", price: 250, picture: churras2, priceTimeReference: "dia"),
+      SpaceData(title: "Sala de jogos", price: 80, picture: jogos, priceTimeReference: "hora")
     ];
     final spaceCards = <Widget>[
       SpaceCard(
@@ -99,7 +99,7 @@ class SpaceCard extends StatelessWidget {
     if (bookedData == null) {
       return ListTile(
         title: Text(spaceData.title),
-        trailing: Text("${spaceData.price} / dia"),
+        trailing: Text("R\$${spaceData.price} / ${spaceData.priceTimeReference}"),
         visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
         contentPadding: const EdgeInsets.symmetric(horizontal: 8),
         // contentPadding: const EdgeInsets.symmetric(horizontal: 8),
